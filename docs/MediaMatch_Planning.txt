@@ -1,0 +1,149 @@
+Step 1: Who/What/Why:
+
+* Why am i making this project? 
+	I am making this project to have a strong project on my resume.
+
+* Who is this project for?
+	This project is for anyone who wants to find media similar to media 	they already like(ex. books, movies, shows, games, etc)
+
+* What is gonna make it valuable?
+	Users are gonna be able to input the media they like and based on the 	genres it will find other media with similar genres to the ones in 	their input.
+
+Step 2: User stories:
+	1. Create an account
+	2. Input media
+	3. Search for media
+	4. Create a media list
+	5. View their inputted media
+	6. Recommend media
+	7. View other user's media
+	8. Browse media by genre
+	9. Browse media by type
+	10. Favorite things in their list
+	11. Remove media from list
+	12. Customize their profile
+	13. Search for other users
+	14. Create a "currently read/watch/play -ing" list
+	15. Rate things in their list
+	16. Comment on other lists
+	17. Find users with similar taste
+
+Step 3: Define data models(stack agnostic):
+	User:
+		- id
+		- email
+		- username
+		- password
+		- bio
+		- profile picture
+		- lists
+
+	List:
+		- id
+		- user
+		- name
+		- description
+		- media
+		- comments
+
+	Media:
+		- id
+		- title
+		- description
+		- release date
+		- image url
+		- media type
+		- genres
+	
+	Genre:
+		- id
+		- name
+
+	UserMedia:
+		- user
+		- media
+		- status
+		- rating
+		- favorite
+		- addedAt
+
+	Status:
+		- Completed
+		- Dropped
+		- Planned
+		- In Progress
+
+	Comment:
+		- id
+		- user
+		- list
+		- content
+		- createdAt
+
+Step 4. MVP(Minimum Viable Product):
+	*Creating a list
+	*Search & Select media
+	*Putting media into list
+	*Removing media from list
+	*View list
+	*Recommend random media
+
+Step 5. Draw a stupid simple prototype:
+	*pictures in folder*
+
+Step 6 Future of the project:
+	The long term goal of this project is to become a polished, full-	stack portfolio project demonstrating front-end development, backend 	development, database design, API integration, authentication, 	recommendation logic, testing, and deployment. It is not intended to 	support a large production user base. The project will prioritize 	functionality, software design, and technical depth while using local 	or free-tier infrastructure whenever possible.
+
+Step 7. Drill into components:
+	*Web App(similar to goodreads maybe)
+	*will need a frontend interface
+	*will need a backend and backend api
+	*Will need a database
+	*External media data source
+	*Recommendation system
+	*Authentication
+
+Step 8. Pick tech stack:
+	Frontend:
+		*HTML/CSS/JAVASCRIPT
+		*(Later React + Vite)
+
+	Backend:
+		*Java
+		*Spring Boot
+		*Spring Web
+		*Spring Data JPA
+		*Spring Security(later)
+
+	Database:
+		*PostgreSQL
+	
+	External data:
+		*REST APIs for media
+
+	Testing:
+		*JUnit + Spring Boot Test
+		*Frontend tests later if useful
+
+	Deployment:
+		*Figure out later maybe if choose to deploy
+			near the end of production
+		*Use free tiers / very cheap hosting only
+	
+	Optional later:
+		*Docker
+
+Step 9. Overall Development Plan:
+	*Create a project skeleton
+		-basic folder structure
+		-development environments
+		-version control
+	*Setting up database and creating data models
+	*Build backend routes
+		-API endpoints
+	*Frontend interface
+		-connect to backend
+	*Project iteration
+	*Automated deployment & testing (if necessary/viable)
+
+Do this shit and you might get employed by 2045
