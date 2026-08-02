@@ -15,7 +15,6 @@ public class MediaList {
     private Long id;
 
     private String name;
-    private String email;
 
     // Getters & Setters
     public Long getId() {
@@ -33,12 +32,5 @@ public class MediaList {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    
 }
