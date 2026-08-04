@@ -1,0 +1,102 @@
+package com.danielabgaryan.mediamatch.service;
+
+import org.springframework.stereotype.Service;
+import com.danielabgaryan.mediamatch.repository.MediaListRepository;
+import com.danielabgaryan.mediamatch.repository.UserRepository;
+import com.danielabgaryan.mediamatch.model.MediaList;
+import com.danielabgaryan.mediamatch.model.User;
+import com.danielabgaryan.mediamatch.repository.MediaRepository;
+import com.danielabgaryan.mediamatch.model.Media;
+import java.util.List;
+
+@Service
+public class MediaListService {
+    private final MediaListRepository mediaListRepository;
+    private final UserRepository userRepository;
+    private final MediaRepository mediaRepository;
+
+    public MediaListService(MediaListRepository mediaListRepository, UserRepository userRepository, MediaRepository mediaRepository) {
+        this.mediaListRepository = mediaListRepository;
+        this.userRepository = userRepository;
+        this.mediaRepository = mediaRepository;
+    }
+
+
+    public MediaList createMediaList(Long userId, String name, String description) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+        MediaList mediaList = new MediaList();
+        mediaList.setName(name);
+        mediaList.setDescription(description);
+        mediaList.setUser(user);
+        
+        return mediaListRepository.save(mediaList);
+    }
+
+    public List<MediaList> getMediaListsByUserId(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new RuntimeException("User not found");
+        }
+
+        return mediaListRepository.findByUser_Id(userId);
+    }
+
+    public List<MediaList> getMediaListsByName(String name) {
+        return mediaListRepository.findByNameIgnoreCase(name);
+    }
+
+    public List<MediaList> getMediaListsByUserIdAndName(Long userId, String name) {
+        if (!userRepository.existsById(userId)) {
+            throw new RuntimeException("User not found");
+        }
+
+        return mediaListRepository.findByUser_IdAndNameIgnoreCase(userId, name);
+    }
+
+    public MediaList getMediaListById(Long mediaListId) {
+        return mediaListRepository.findById(mediaListId).orElseThrow(() -> new RuntimeException("Media list not found"));
+    }
+
+    public MediaList addMediaToList(Long mediaListId, Long mediaId) {
+        MediaList mediaList = getMediaListById(mediaListId);
+
+        Media media = mediaRepository.findById(mediaId).orElseThrow(() -> new RuntimeException("Media not found"));
+
+        boolean added = mediaList.getMedia().add(media);
+        if (!added) {
+            throw new RuntimeException("Media already exists in the list");
+        }
+
+        return mediaListRepository.save(mediaList);
+    }
+
+    public MediaList removeMediaFromList(Long mediaListId, Long mediaId) {
+        MediaList mediaList = getMediaListById(mediaListId);
+
+        Media media = mediaRepository.findById(mediaId).orElseThrow(() -> new RuntimeException("Media not found"));
+
+        boolean removed = mediaList.getMedia().remove(media);
+        if (!removed) {
+            throw new RuntimeException("Media not found in the list");
+        }
+
+        return mediaListRepository.save(mediaList);
+    }
+
+    public void deleteMediaList(Long mediaListId) {
+        if (!mediaListRepository.existsById(mediaListId)) {
+            throw new RuntimeException("Media list not found");
+        }
+
+        mediaListRepository.deleteById(mediaListId);
+    }
+
+    public MediaList updateMediaList(Long mediaListId, String name, String description) {
+        MediaList mediaList = getMediaListById(mediaListId);
+
+        mediaList.setName(name);
+        mediaList.setDescription(description);
+
+        return mediaListRepository.save(mediaList);
+    }
+}
