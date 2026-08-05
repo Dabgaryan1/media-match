@@ -52,7 +52,7 @@ public class UserMedia {
     @Column(nullable = false, updatable = false)
     private LocalDateTime addedAt;
 
-    protected UserMedia() {
+    public UserMedia() {
     }
 
     public UserMedia(User user, Media media, Status status, Integer rating, boolean favorite) {
@@ -99,7 +99,7 @@ public class UserMedia {
         this.rating = rating;
     }
 
-    public boolean isFavorite() {
+    public boolean getFavorite() {
         return favorite;
     }
 

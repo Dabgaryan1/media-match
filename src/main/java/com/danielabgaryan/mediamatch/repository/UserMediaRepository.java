@@ -17,5 +17,6 @@ public interface UserMediaRepository extends JpaRepository<UserMedia, Long> {
 
     List<UserMedia> findByUser_IdAndStatus(Long userId, Status status);
 
-    List<UserMedia> findByUser_IdAndFavorite(Long userId, boolean favorite);
+    List<UserMedia> findByUser_IdAndFavoriteTrue(Long userId);
+
 }
