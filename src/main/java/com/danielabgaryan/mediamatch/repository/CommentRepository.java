@@ -14,4 +14,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findByUser_IdAndMediaList_Id(Long userId, Long mediaListId);
 
     Optional<Comment> findByIdAndUser_Id(Long commentId, Long userId);
+
+    List<Comment> findByMediaList_IdOrderByCreatedAtDesc(Long mediaListId);
 }

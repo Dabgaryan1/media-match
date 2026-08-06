@@ -28,7 +28,7 @@ public class User {
 
     private String profilePictureUrl;
 
-    protected User() {
+    public User() {
     }
 
     public User(String email, String username, String passwordHash, String bio, String profilePictureUrl) {

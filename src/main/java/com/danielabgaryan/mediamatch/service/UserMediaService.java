@@ -75,7 +75,7 @@ public class UserMediaService {
 
     public void removeMediaFromUser(Long userMediaId) {
         UserMedia userMedia = getUserMediaById(userMediaId);
-        userMediaRepository.deleteById(userMediaId);
+        userMediaRepository.delete(userMedia);
     }
 
     public List<UserMedia> getUserFavorites(Long userId) {
