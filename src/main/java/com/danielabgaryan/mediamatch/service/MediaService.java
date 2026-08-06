@@ -73,7 +73,7 @@ public class MediaService {
         return mediaRepository.findByTitleIgnoreCase(title);
     }
 
-    public List<Media> searchMediaByTitle(String title) {
+    public List<Media> getMediaByTitle(String title) {
         return mediaRepository.findByTitleContainingIgnoreCase(title);
     }
 

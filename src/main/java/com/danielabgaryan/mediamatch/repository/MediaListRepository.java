@@ -11,4 +11,5 @@ public interface MediaListRepository extends JpaRepository<MediaList, Long> {
     List<MediaList> findByUser_Id(Long userId);
 
     List<MediaList> findByUser_IdAndNameIgnoreCase(Long userId, String name);
+
 }
