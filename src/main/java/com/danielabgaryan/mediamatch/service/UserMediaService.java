@@ -77,12 +77,12 @@ public class UserMediaService {
         UserMedia userMedia = getUserMediaById(userMediaId);
         userMediaRepository.delete(userMedia);
     }
-
+    
     public List<UserMedia> getUserFavorites(Long userId) {
         getUserOrThrow(userId);
         return userMediaRepository.findByUser_IdAndFavoriteTrue(userId);
     }
-
+    
     //helper method to check if user exists
     private User getUserOrThrow(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
