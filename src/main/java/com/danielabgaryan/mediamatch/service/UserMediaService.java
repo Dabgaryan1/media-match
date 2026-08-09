@@ -6,6 +6,9 @@ import com.danielabgaryan.mediamatch.repository.UserRepository;
 import com.danielabgaryan.mediamatch.repository.MediaRepository;
 import com.danielabgaryan.mediamatch.model.UserMedia;
 import com.danielabgaryan.mediamatch.model.User;
+import com.danielabgaryan.mediamatch.exception.DuplicateResourceException;
+import com.danielabgaryan.mediamatch.exception.InvalidRequestException;
+import com.danielabgaryan.mediamatch.exception.ResourceNotFoundException;
 import com.danielabgaryan.mediamatch.model.Media;
 import com.danielabgaryan.mediamatch.model.Status;
 import java.util.List;
@@ -25,10 +28,10 @@ public class UserMediaService {
     public UserMedia addMediaToUser(Long userId, Long mediaId, Status status) {
         User user = getUserOrThrow(userId);
 
-        Media media = mediaRepository.findById(mediaId).orElseThrow(() -> new RuntimeException("Media not found"));
+        Media media = mediaRepository.findById(mediaId).orElseThrow(() -> new ResourceNotFoundException("Media not found"));
 
         if (userMediaRepository.existsByUser_IdAndMedia_Id(userId, mediaId)) {
-            throw new RuntimeException("Media is already in user's library");
+            throw new DuplicateResourceException("Media is already in user's library");
         }
 
         UserMedia userMedia = new UserMedia();
@@ -46,7 +49,7 @@ public class UserMediaService {
     }
 
     public UserMedia getUserMediaById(Long userMediaId) {
-        return userMediaRepository.findById(userMediaId).orElseThrow(() -> new RuntimeException("User media not found"));
+        return userMediaRepository.findById(userMediaId).orElseThrow(() -> new ResourceNotFoundException("User media not found"));
     }
 
     public UserMedia updateStatus(Long userMediaId, Status status) {
@@ -58,7 +61,7 @@ public class UserMediaService {
 
     public UserMedia updateRating(Long userMediaId, Integer rating) {
         if (rating != null && (rating < 1 || rating > 5)) {
-            throw new RuntimeException("Rating must be between 1 and 5");
+            throw new InvalidRequestException("Rating must be between 1 and 5");
         }
         UserMedia userMedia = getUserMediaById(userMediaId);
         userMedia.setRating(rating);
@@ -85,6 +88,6 @@ public class UserMediaService {
     
     //helper method to check if user exists
     private User getUserOrThrow(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 }

@@ -6,6 +6,8 @@ import com.danielabgaryan.mediamatch.repository.UserRepository;
 import com.danielabgaryan.mediamatch.model.MediaList;
 import com.danielabgaryan.mediamatch.model.User;
 import com.danielabgaryan.mediamatch.repository.MediaRepository;
+import com.danielabgaryan.mediamatch.exception.DuplicateResourceException;
+import com.danielabgaryan.mediamatch.exception.ResourceNotFoundException;
 import com.danielabgaryan.mediamatch.model.Media;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class MediaListService {
 
 
     public MediaList createMediaList(Long userId, String name, String description) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         MediaList mediaList = new MediaList();
         mediaList.setName(name);
@@ -35,7 +37,7 @@ public class MediaListService {
 
     public List<MediaList> getMediaListsByUserId(Long userId) {
         if (!userRepository.existsById(userId)) {
-            throw new RuntimeException("User not found");
+            throw new ResourceNotFoundException("User not found");
         }
 
         return mediaListRepository.findByUser_Id(userId);
@@ -47,24 +49,24 @@ public class MediaListService {
 
     public List<MediaList> getMediaListsByUserIdAndName(Long userId, String name) {
         if (!userRepository.existsById(userId)) {
-            throw new RuntimeException("User not found");
+            throw new ResourceNotFoundException("User not found");
         }
 
         return mediaListRepository.findByUser_IdAndNameIgnoreCase(userId, name);
     }
 
     public MediaList getMediaListById(Long mediaListId) {
-        return mediaListRepository.findById(mediaListId).orElseThrow(() -> new RuntimeException("Media list not found"));
+        return mediaListRepository.findById(mediaListId).orElseThrow(() -> new ResourceNotFoundException("Media list not found"));
     }
 
     public MediaList addMediaToList(Long mediaListId, Long mediaId) {
         MediaList mediaList = getMediaListById(mediaListId);
 
-        Media media = mediaRepository.findById(mediaId).orElseThrow(() -> new RuntimeException("Media not found"));
+        Media media = mediaRepository.findById(mediaId).orElseThrow(() -> new ResourceNotFoundException("Media not found"));
 
         boolean added = mediaList.getMedia().add(media);
         if (!added) {
-            throw new RuntimeException("Media already exists in the list");
+            throw new DuplicateResourceException("Media already exists in the list");
         }
 
         return mediaListRepository.save(mediaList);
@@ -73,11 +75,11 @@ public class MediaListService {
     public MediaList removeMediaFromList(Long mediaListId, Long mediaId) {
         MediaList mediaList = getMediaListById(mediaListId);
 
-        Media media = mediaRepository.findById(mediaId).orElseThrow(() -> new RuntimeException("Media not found"));
+        Media media = mediaRepository.findById(mediaId).orElseThrow(() -> new ResourceNotFoundException("Media not found"));
 
         boolean removed = mediaList.getMedia().remove(media);
         if (!removed) {
-            throw new RuntimeException("Media not found in the list");
+            throw new ResourceNotFoundException("Media not found in the list");
         }
 
         return mediaListRepository.save(mediaList);
@@ -85,7 +87,7 @@ public class MediaListService {
 
     public void deleteMediaList(Long mediaListId) {
         if (!mediaListRepository.existsById(mediaListId)) {
-            throw new RuntimeException("Media list not found");
+            throw new ResourceNotFoundException("Media list not found");
         }
 
         mediaListRepository.deleteById(mediaListId);

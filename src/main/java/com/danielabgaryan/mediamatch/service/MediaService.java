@@ -3,6 +3,7 @@ package com.danielabgaryan.mediamatch.service;
 import org.springframework.stereotype.Service;
 import com.danielabgaryan.mediamatch.repository.MediaRepository;
 import com.danielabgaryan.mediamatch.repository.GenreRepository;
+import com.danielabgaryan.mediamatch.exception.ResourceNotFoundException;
 import com.danielabgaryan.mediamatch.model.Genre;
 import com.danielabgaryan.mediamatch.model.Media;
 import com.danielabgaryan.mediamatch.model.MediaType;
@@ -31,12 +32,12 @@ public class MediaService {
     }
 
     public Media getMediaById(Long id) {
-        return mediaRepository.findById(id).orElseThrow(() -> new RuntimeException("Media not found"));
+        return mediaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Media not found"));
     }
 
     public void deleteMediaById(Long id) {
         if (!mediaRepository.existsById(id)) {
-            throw new RuntimeException("Media not found");
+            throw new ResourceNotFoundException("Media not found");
         }
         mediaRepository.deleteById(id);
     }

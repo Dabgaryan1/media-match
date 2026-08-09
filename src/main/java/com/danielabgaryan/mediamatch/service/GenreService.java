@@ -1,8 +1,9 @@
 package com.danielabgaryan.mediamatch.service;
 
 import org.springframework.stereotype.Service;
-
 import com.danielabgaryan.mediamatch.repository.GenreRepository;
+import com.danielabgaryan.mediamatch.exception.DuplicateResourceException;
+import com.danielabgaryan.mediamatch.exception.ResourceNotFoundException;
 import com.danielabgaryan.mediamatch.model.Genre;
 import java.util.List;
 
@@ -16,19 +17,19 @@ public class GenreService {
 
     public Genre createGenre(String name) {
         if(genreRepository.existsByNameIgnoreCase(name)) {
-            throw new RuntimeException("Genre already exists");
+            throw new DuplicateResourceException("Genre already exists");
         }
         Genre genre = new Genre(name);
         return genreRepository.save(genre);
     }
 
     public Genre getGenreById(Long genreId) {
-        return genreRepository.findById(genreId).orElseThrow(() -> new RuntimeException("Genre not found"));
+        return genreRepository.findById(genreId).orElseThrow(() -> new ResourceNotFoundException("Genre not found"));
     }
 
     public Genre getGenreByName(String name) {
         return genreRepository.findByNameIgnoreCase(name)
-                .orElseThrow(() -> new RuntimeException("Genre not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Genre not found"));
     }
 
     public List<Genre> getAllGenres() {
