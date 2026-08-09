@@ -61,7 +61,7 @@ public class MediaListController {
         return mediaListService.addMediaToList(listId, mediaId);
     }
 
-    @PutMapping("/{listId}/media/{mediaId}")
+    @DeleteMapping("/{listId}/media/{mediaId}")
     public MediaList removeMediaFromList(@PathVariable Long listId, @PathVariable Long mediaId) {
         return mediaListService.removeMediaFromList(listId, mediaId);
     }

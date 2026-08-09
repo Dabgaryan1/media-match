@@ -134,12 +134,12 @@ Step 8. Pick tech stack:
 		*Docker
 
 Step 9. Overall Development Plan:
-	*Create a project skeleton
+	*Create a project skeleton 
 		-basic folder structure
 		-development environments
 		-version control
 	*Setting up database and creating data models
-	*Build backend routes
+	*Build backend routes 
 		-API endpoints
 	*Frontend interface
 		-connect to backend
