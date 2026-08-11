@@ -11,6 +11,7 @@ import java.util.List;
 import com.danielabgaryan.mediamatch.dto.CreateCommentRequest;
 import com.danielabgaryan.mediamatch.model.Comment;
 import com.danielabgaryan.mediamatch.service.CommentService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/comments")
@@ -22,7 +23,7 @@ public class CommentController {
     }
 
     @PostMapping
-    public Comment createComment(@RequestBody CreateCommentRequest request) {
+    public Comment createComment(@Valid @RequestBody CreateCommentRequest request) {
         return commentService.createComment(
             request.getUserId(),
             request.getMediaListId(),

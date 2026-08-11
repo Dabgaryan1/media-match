@@ -5,12 +5,30 @@ import java.util.Set;
 import com.danielabgaryan.mediamatch.model.Genre;
 import com.danielabgaryan.mediamatch.model.MediaType;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class CreateMediaRequest {
+
+    @NotBlank(message = "Title is required")
     private String title;
+
+    @NotBlank
+    @Size(max = 300, message = "Description must be 300 character or less")
     private String description;
+
+    @NotNull(message = "Release date is required")
     private LocalDate releaseDate;
+
+    @NotBlank(message = "Image URL is required")
     private String imageUrl;
+
+    @NotNull(message = "Media Type is required")
     private MediaType mediaType;
+
+    @NotEmpty(message = "At least one genre is required")
     private Set<Genre> genres;
 
     public CreateMediaRequest() {

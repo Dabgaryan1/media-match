@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.danielabgaryan.mediamatch.service.MediaListService;
+
+import jakarta.validation.Valid;
+
 import com.danielabgaryan.mediamatch.dto.CreateMediaListRequest;
 import com.danielabgaryan.mediamatch.model.MediaList;
 import java.util.List;
@@ -23,7 +26,7 @@ public class MediaListController {
     }
 
     @PostMapping
-    public MediaList createMediaList(@RequestBody CreateMediaListRequest request) {
+    public MediaList createMediaList(@Valid @RequestBody CreateMediaListRequest request) {
         return mediaListService.createMediaList(
             request.getUserId(),
             request.getName(),

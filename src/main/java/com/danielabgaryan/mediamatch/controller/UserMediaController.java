@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.danielabgaryan.mediamatch.dto.CreateUserMediaRequest;
 import com.danielabgaryan.mediamatch.dto.UpdateFavoriteRequest;
 import com.danielabgaryan.mediamatch.dto.UpdateRatingRequest;
 import com.danielabgaryan.mediamatch.dto.UpdateStatusRequest;
 import com.danielabgaryan.mediamatch.model.UserMedia;
 import com.danielabgaryan.mediamatch.service.UserMediaService;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,7 +27,7 @@ public class UserMediaController {
     }
 
     @PostMapping
-    public UserMedia addMediaToUser(@RequestBody CreateUserMediaRequest request) {
+    public UserMedia addMediaToUser(@Valid @RequestBody CreateUserMediaRequest request) {
         return userMediaService.addMediaToUser(
             request.getUserId(),
             request.getMediaId(),
@@ -51,12 +51,12 @@ public class UserMediaController {
     }
 
     @PutMapping("/{id}/status")
-    public UserMedia updateStatus(@PathVariable Long id, @RequestBody UpdateStatusRequest request) {
+    public UserMedia updateStatus(@Valid @PathVariable Long id, @RequestBody UpdateStatusRequest request) {
         return userMediaService.updateStatus(id, request.getStatus());
     }
 
     @PutMapping("/{id}/rating")
-    public UserMedia updateRating(@PathVariable Long id, @RequestBody UpdateRatingRequest request) {
+    public UserMedia updateRating(@Valid @PathVariable Long id, @RequestBody UpdateRatingRequest request) {
         return userMediaService.updateRating(id, request.getRating());
     }
 

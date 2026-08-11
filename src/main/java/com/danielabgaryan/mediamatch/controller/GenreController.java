@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.danielabgaryan.mediamatch.dto.CreateGenreRequest;
 import com.danielabgaryan.mediamatch.model.Genre;
 import com.danielabgaryan.mediamatch.service.GenreService;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ public class GenreController {
     }
 
     @PostMapping
-    public Genre createGenre(@RequestBody CreateGenreRequest request) {
+    public Genre createGenre(@Valid @RequestBody CreateGenreRequest request) {
         return genreService.createGenre(request.getName());
     }
 

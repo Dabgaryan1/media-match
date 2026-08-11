@@ -10,6 +10,7 @@ import com.danielabgaryan.mediamatch.model.Media;
 import com.danielabgaryan.mediamatch.model.MediaType;
 import com.danielabgaryan.mediamatch.dto.CreateMediaRequest;
 import com.danielabgaryan.mediamatch.service.MediaService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
@@ -24,7 +25,7 @@ public class MediaController {
     }
 
     @PostMapping
-    public Media createMedia(@RequestBody CreateMediaRequest request) {
+    public Media createMedia(@Valid @RequestBody CreateMediaRequest request) {
         return mediaService.createMedia(
             request.getTitle(),
             request.getDescription(),

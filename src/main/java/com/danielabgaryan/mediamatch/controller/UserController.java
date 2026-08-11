@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.danielabgaryan.mediamatch.dto.CreateUserRequest;
 import com.danielabgaryan.mediamatch.model.User;
 import com.danielabgaryan.mediamatch.service.UserService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
@@ -22,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody CreateUserRequest request) {
+    public User createUser(@Valid @RequestBody CreateUserRequest request) {
         return userService.createUser(
             request.getUserName(),
             request.getEmail(),
