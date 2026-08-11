@@ -15,12 +15,12 @@ public class CreateUserRequest {
 
     @NotBlank(message = "Password is required")
     @Size(min = 8, message = "Password must be at least 8 characters")
-    private String passwordHash;
+    private String password;
 
-    public CreateUserRequest(String userName, String email, String passwordHash) {
+    public CreateUserRequest(String userName, String email, String password) {
         this.userName = userName;
         this.email = email;
-        this.passwordHash = passwordHash;
+        this.password = password;
     }
 
     public String getUserName() {
@@ -40,10 +40,10 @@ public class CreateUserRequest {
     }
 
     public String getPasswordHash() {
-        return passwordHash;
+        return password;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

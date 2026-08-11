@@ -1,5 +1,6 @@
 package com.danielabgaryan.mediamatch.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.danielabgaryan.mediamatch.exception.DuplicateResourceException;
@@ -10,9 +11,11 @@ import com.danielabgaryan.mediamatch.repository.UserRepository;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User getUserById(Long userId) {
@@ -38,7 +41,9 @@ public class UserService {
         User user = new User();
         user.setUsername(userName);
         user.setEmail(email);
-        user.setPasswordHash(passwordHash);
+
+        String hashedPassword = passwordEncoder.encode(passwordHash);
+        user.setPasswordHash(hashedPassword);
 
         return userRepository.save(user);
     }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.danielabgaryan.mediamatch.dto.CreateUserRequest;
+import com.danielabgaryan.mediamatch.dto.UserResponse;
 import com.danielabgaryan.mediamatch.model.User;
 import com.danielabgaryan.mediamatch.service.UserService;
 import jakarta.validation.Valid;
@@ -23,41 +24,49 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@Valid @RequestBody CreateUserRequest request) {
-        return userService.createUser(
+    public UserResponse createUser(@Valid @RequestBody CreateUserRequest request) {
+        User user = userService.createUser(
             request.getUserName(),
             request.getEmail(),
             request.getPasswordHash()
         );
+
+        return toUserResponse(user);
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    public UserResponse getUserById(@PathVariable Long id) {
+        return toUserResponse(userService.getUserById(id));
     }
-
     @GetMapping("/username/{userName}")
-    public User getUserByUsername(@PathVariable String userName) {
-        return userService.getUserByUsername(userName);
+    public UserResponse getUserByUsername(@PathVariable String userName) {
+        return toUserResponse(userService.getUserByUsername(userName));
     }
 
     @GetMapping("/email/{email}")
-    public User getUserByEmail(@PathVariable String email) {
-        return userService.getUserByEmail(email);
+    public UserResponse getUserByEmail(@PathVariable String email) {
+        return toUserResponse(userService.getUserByEmail(email));
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody CreateUserRequest request) {
-        return userService.updateUser(
+    public UserResponse updateUser(@PathVariable Long id, @RequestBody CreateUserRequest request) {
+        User user = userService.updateUser(
             id, 
             request.getUserName(),
             request.getEmail(),
             request.getPasswordHash()
         );
+
+        return toUserResponse(user);
     }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+    //helper function to convert User to UserResponse
+    public UserResponse toUserResponse(User user) {
+        return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getBio(), user.getProfilePictureUrl());
     }
 }
