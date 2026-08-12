@@ -11,7 +11,7 @@ import com.danielabgaryan.mediamatch.repository.UserRepository;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -30,7 +30,7 @@ public class UserService {
         return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Email not found"));
     }
 
-    public User createUser(String userName, String email, String passwordHash) {
+    public User createUser(String userName, String email, String password) {
         if (userRepository.existsByEmail(email)) {
             throw new DuplicateResourceException("Email already taken");
         }
@@ -42,13 +42,13 @@ public class UserService {
         user.setUsername(userName);
         user.setEmail(email);
 
-        String hashedPassword = passwordEncoder.encode(passwordHash);
+        String hashedPassword = passwordEncoder.encode(password);
         user.setPasswordHash(hashedPassword);
 
         return userRepository.save(user);
     }
 
-    public User updateUser(Long userId, String userName, String email, String passwordHash) {
+    public User updateUser(Long userId, String userName, String email, String password) {
         User user = getUserById(userId);
 
         userRepository.findByUsername(userName).filter(existingUser -> !existingUser.getId().equals(userId)).ifPresent(existingUser -> {
@@ -61,15 +61,15 @@ public class UserService {
 
         user.setUsername(userName);
         user.setEmail(email);
-        user.setPasswordHash(passwordHash);
+
+        String hashedPassword = passwordEncoder.encode(password);
+        user.setPasswordHash(hashedPassword);
 
         return userRepository.save(user);
     }
     
     public void deleteUser(Long userId) {
-        if (!userRepository.existsById(userId)) {
-            throw new ResourceNotFoundException("User not found");
-        }
-        userRepository.deleteById(userId);
+        User user = getUserById(userId);
+        userRepository.delete(user);
     }
 }

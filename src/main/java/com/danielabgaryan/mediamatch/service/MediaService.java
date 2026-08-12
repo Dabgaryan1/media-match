@@ -36,10 +36,9 @@ public class MediaService {
     }
 
     public void deleteMediaById(Long id) {
-        if (!mediaRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Media not found");
-        }
-        mediaRepository.deleteById(id);
+        Media media = getMediaById(id);
+
+        mediaRepository.delete(media);
     }
 
     public Media updateMedia(Long id, String title, String description, LocalDate releaseDate, String imageUrl, MediaType type, Set<Genre> genres) {

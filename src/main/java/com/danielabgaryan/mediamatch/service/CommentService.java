@@ -23,8 +23,8 @@ public class CommentService {
     }
 
     public Comment createComment(Long userId, Long mediaListId, String content) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        MediaList mediaList = mediaListRepository.findById(mediaListId).orElseThrow(() -> new ResourceNotFoundException("Media list not found"));
+        User user = getUserOrThrow(userId);
+        MediaList mediaList = getMediaListOrThrow(mediaListId);
         
         Comment comment = new Comment(user, mediaList, content);
         return commentRepository.save(comment);
@@ -36,20 +36,26 @@ public class CommentService {
     }
 
     public List<Comment> getCommentsByMediaList(Long mediaListId) {
-        if(!mediaListRepository.existsById(mediaListId)) {
-            throw new ResourceNotFoundException("Media list not found");
-        }
+        getMediaListOrThrow(mediaListId);
         return commentRepository.findByMediaList_Id(mediaListId);
     }
 
     public List<Comment> getCommentsByUser(Long userId) {
-        if(!userRepository.existsById(userId)) {
-            throw new ResourceNotFoundException("User not found");
-        }
+        getUserOrThrow(userId);
         return commentRepository.findByUser_Id(userId);
     }
 
     public Comment getCommentById(Long commentId) {
         return commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment not found"));
-    }   
+    }
+
+    //helper method to get User or throw a ResourceNotFoundException
+    private User getUserOrThrow(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User Not found"));
+    }
+
+    //helper method to get Media List or throw a ResourceNotFoundException
+    private MediaList getMediaListOrThrow(Long mediaListId) {
+        return mediaListRepository.findById(mediaListId).orElseThrow(() -> new ResourceNotFoundException("Media List not found"));
+    }
 }

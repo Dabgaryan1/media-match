@@ -86,11 +86,9 @@ public class MediaListService {
     }
 
     public void deleteMediaList(Long mediaListId) {
-        if (!mediaListRepository.existsById(mediaListId)) {
-            throw new ResourceNotFoundException("Media list not found");
-        }
+        MediaList mediaList = getMediaListById(mediaListId);
 
-        mediaListRepository.deleteById(mediaListId);
+        mediaListRepository.delete(mediaList);
     }
 
     public MediaList updateMediaList(Long mediaListId, String name, String description) {
