@@ -11,20 +11,18 @@ import com.danielabgaryan.mediamatch.repository.UserRepository;
 public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private JwtService jwtService;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
     }
 
-    public String authenticate(String email, String password) {
+    public User authenticate(String email, String password) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!passwordEncoder.matches(password, user.getPasswordHash())) {
             throw new InvalidRequestException("Invalid credentials");
         }
-        return jwtService.generateToken(user);
+        return user;
     }
 }
