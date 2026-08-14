@@ -39,6 +39,16 @@ public class MediaList {
     )
     private Set<Media> media = new HashSet<>();
     
+    public MediaList(User user, String name, String description) {
+        this.user = user;
+        this.name = name;
+        this.description = description;
+    }
+
+    public MediaList() {
+        
+    }
+    
     public Long getId() {
         return id;
     }
