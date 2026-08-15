@@ -7,7 +7,7 @@ import com.danielabgaryan.mediamatch.model.MediaList;
 import com.danielabgaryan.mediamatch.model.User;
 import com.danielabgaryan.mediamatch.repository.MediaRepository;
 import com.danielabgaryan.mediamatch.exception.DuplicateResourceException;
-import com.danielabgaryan.mediamatch.exception.InvalidRequestException;
+import com.danielabgaryan.mediamatch.exception.ForbiddenException;
 import com.danielabgaryan.mediamatch.exception.ResourceNotFoundException;
 import com.danielabgaryan.mediamatch.model.Media;
 import java.util.List;
@@ -111,7 +111,7 @@ public class MediaListService {
 
     private void verifyOwnership(MediaList mediaList, String email) {
         if (!mediaList.getUser().getEmail().equals(email)) {
-            throw new InvalidRequestException("You do not own this media list");
+            throw new ForbiddenException("You do not own this media list");
         }
     }
 }

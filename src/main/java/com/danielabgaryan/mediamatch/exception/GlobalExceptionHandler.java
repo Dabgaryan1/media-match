@@ -26,6 +26,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 
+    @ExceptionHandler
+    public ResponseEntity<String> handleForbiddenException(ForbiddenException exception) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class) 
     public ResponseEntity<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException exception) {
         Map<String, String> errors = new HashMap<>();
