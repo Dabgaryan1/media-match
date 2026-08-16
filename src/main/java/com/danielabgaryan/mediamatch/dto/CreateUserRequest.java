@@ -39,7 +39,7 @@ public class CreateUserRequest {
         this.email = email;
     }
 
-    public String getPasswordHash() {
+    public String getPassword() {
         return password;
     }
 
