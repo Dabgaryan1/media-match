@@ -42,7 +42,7 @@ public class MediaService {
     }
 
     public Media updateMedia(Long id, String title, String description, LocalDate releaseDate, String imageUrl, MediaType type, Set<Genre> genres) {
-        Media media = getMediaById(id); // This will throw an exception if the media doesn't exist
+        Media media = getMediaById(id);
 
         Set<Genre> savedGenres = resolveGenres(genres);
 

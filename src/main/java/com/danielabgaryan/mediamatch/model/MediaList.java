@@ -24,7 +24,7 @@ public class MediaList {
     @Column(nullable = false)
     private String name;
 
-    @Column(length = 200)
+    @Column(nullable = false, length = 300)
     private String description;
 
     @ManyToOne(optional = false)

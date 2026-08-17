@@ -74,7 +74,7 @@ public class UserController {
     }
 
     //helper function to convert User to UserResponse
-    public UserResponse toUserResponse(User user) {
+    private UserResponse toUserResponse(User user) {
         return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getBio(), user.getProfilePictureUrl());
     }
 }

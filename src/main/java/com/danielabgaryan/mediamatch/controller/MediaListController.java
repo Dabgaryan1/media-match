@@ -69,7 +69,7 @@ public class MediaListController {
     }
 
     @PutMapping("/{id}")
-    public MediaListResponse updateMediaList(@Valid @PathVariable Long id, @RequestBody CreateMediaListRequest request, Authentication authentication) {
+    public MediaListResponse updateMediaList(@PathVariable Long id, @Valid @RequestBody CreateMediaListRequest request, Authentication authentication) {
         String email = authentication.getName();
 
         MediaList mediaList = mediaListService.updateMediaList(id, email, request.getName(), request.getDescription());

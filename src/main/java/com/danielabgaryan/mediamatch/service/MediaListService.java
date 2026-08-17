@@ -100,11 +100,10 @@ public class MediaListService {
 
     public MediaList updateMediaList(Long mediaListId, String email, String name, String description) {
         MediaList mediaList = getMediaListById(mediaListId);
+        verifyOwnership(mediaList, email);
 
         mediaList.setName(name);
         mediaList.setDescription(description);
-        
-        verifyOwnership(mediaList, email);
 
         return mediaListRepository.save(mediaList);
     }

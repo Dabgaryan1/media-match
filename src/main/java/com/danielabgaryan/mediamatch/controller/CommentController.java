@@ -65,7 +65,7 @@ public class CommentController {
         commentService.deleteComment(id, email);
     }
 
-    public CommentResponse toCommentResponse(Comment comment) {
+    private CommentResponse toCommentResponse(Comment comment) {
         User user = comment.getUser();
         MediaList mediaList = comment.getMediaList();
         

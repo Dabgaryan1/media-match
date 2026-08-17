@@ -62,7 +62,7 @@ public class MediaController {
     }
     
     @PutMapping("/{id}")
-    public Media updateMedia(@PathVariable Long id, @RequestBody CreateMediaRequest request) {
+    public Media updateMedia(@PathVariable Long id, @Valid @RequestBody CreateMediaRequest request) {
         return mediaService.updateMedia(
             id, 
             request.getTitle(), 

@@ -4,7 +4,6 @@ import com.danielabgaryan.mediamatch.model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.danielabgaryan.mediamatch.exception.InvalidRequestException;
-import com.danielabgaryan.mediamatch.exception.ResourceNotFoundException;
 import com.danielabgaryan.mediamatch.repository.UserRepository;
 
 @Service
@@ -18,10 +17,10 @@ public class AuthService {
     }
 
     public User authenticate(String email, String password) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new InvalidRequestException("Invalid email or password"));
 
         if (!passwordEncoder.matches(password, user.getPasswordHash())) {
-            throw new InvalidRequestException("Invalid credentials");
+            throw new InvalidRequestException("Invalid email or password");
         }
         return user;
     }

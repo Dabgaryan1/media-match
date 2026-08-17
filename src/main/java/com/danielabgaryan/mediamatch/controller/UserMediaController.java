@@ -46,8 +46,8 @@ public class UserMediaController {
 
     @GetMapping("/{id}")
     public UserMediaResponse getUserMediaById(@PathVariable Long id) {
-        UserMedia usermedia = userMediaService.getUserMediaById(id);
-        return toUserMediaResponse(usermedia);
+        UserMedia userMedia = userMediaService.getUserMediaById(id);
+        return toUserMediaResponse(userMedia);
     }
 
     @GetMapping("/user/{userId}")
