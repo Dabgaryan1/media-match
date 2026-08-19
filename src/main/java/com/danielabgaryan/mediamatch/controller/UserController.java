@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.danielabgaryan.mediamatch.dto.CreateUserRequest;
+import com.danielabgaryan.mediamatch.dto.UpdatePasswordRequest;
+import com.danielabgaryan.mediamatch.dto.UpdateUserRequest;
 import com.danielabgaryan.mediamatch.dto.UserResponse;
 import com.danielabgaryan.mediamatch.exception.ForbiddenException;
 import com.danielabgaryan.mediamatch.model.User;
@@ -54,14 +56,27 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public UserResponse updateUser(@PathVariable Long id, @Valid @RequestBody CreateUserRequest request, Authentication authentication) {
+    public UserResponse updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserRequest request, Authentication authentication) {
         String authenticatedEmail = authentication.getName();
         User user = userService.updateUser(
-            id, 
+            id,
             authenticatedEmail,
-            request.getUserName(),
-            request.getEmail(),
-            request.getPassword()
+            request.getUsername(),
+            request.getEmail()
+        );
+
+        return toUserResponse(user);
+    }
+
+    @PutMapping("/{id}/password")
+    public UserResponse updatePassword(@PathVariable Long id, @Valid @RequestBody UpdatePasswordRequest request, Authentication authentication) {
+        String authenticatedEmail = authentication.getName();
+
+        User user = userService.updatePassword(
+            id,
+            authenticatedEmail,
+            request.getCurrentPassword(),
+            request.getNewPassword()
         );
 
         return toUserResponse(user);
