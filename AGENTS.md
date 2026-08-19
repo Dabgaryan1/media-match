@@ -563,7 +563,8 @@ Current ownership behavior:
 - GET by ID is authenticated but not owner-only
 - GET by username is authenticated but not owner-only
 - GET by email is restricted to the authenticated user
-- update requires ownership
+- profile update requires ownership and does not modify the password
+- password update requires ownership and verification of the current password
 - delete requires ownership
 
 ### Media and Genre
@@ -609,26 +610,17 @@ MediaMatch will eventually include:
 
 Do not prematurely build these features unless they are the current task.
 
-## Known Follow-Up
+## Current User Update Design
 
-The current user update flow combines profile updates and password updates.
+Profile updates and password updates use separate flows.
 
-This should be refactored.
+- Profile updates use `UpdateUserRequest` and do not accept, hash, or modify a password.
+- Password updates use `UpdatePasswordRequest` with the current password and new password.
+- The service verifies the current raw password with `PasswordEncoder.matches(...)` before hashing and storing the new password.
+- Password hashes must never be returned in either update response.
 
-Ordinary profile updates should eventually allow fields such as:
-
-- username
-- email
-- bio
-- profile picture URL
-
-to change without requiring the password to be submitted again or re-hashed.
-
-Password changes should be handled separately from normal profile updates.
-
-Do not forget this follow-up.
-
-Do not perform this refactor unless it is the current requested task.
+## Known Future Changes
+Because the JWT subject is currently the user's email, changing an email makes the existing JWT stale. The user must log in again with the new email before making another owner-only request.
 
 ## Frontend Notes
 
