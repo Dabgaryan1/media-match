@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.danielabgaryan.mediamatch.service.MediaListService;
-
+import org.springframework.security.core.Authentication;
 import jakarta.validation.Valid;
-
 import com.danielabgaryan.mediamatch.dto.CreateMediaListRequest;
+import com.danielabgaryan.mediamatch.dto.MediaListResponse;
+import com.danielabgaryan.mediamatch.dto.UserResponse;
 import com.danielabgaryan.mediamatch.model.MediaList;
+import com.danielabgaryan.mediamatch.model.User;
+
 import java.util.List;
 
 @RestController
@@ -26,51 +29,82 @@ public class MediaListController {
     }
 
     @PostMapping
-    public MediaList createMediaList(@Valid @RequestBody CreateMediaListRequest request) {
-        return mediaListService.createMediaList(
-            request.getUserId(),
+    public MediaListResponse createMediaList(@Valid @RequestBody CreateMediaListRequest request, Authentication authentication) {
+        String email = authentication.getName();
+
+        MediaList mediaList = mediaListService.createMediaList(
+            email,
             request.getName(),
             request.getDescription()
         );
+
+        return toMediaListResponse(mediaList);
     }
 
     @GetMapping("/{id}")
-    public MediaList getMediaListById(@PathVariable Long id) {
-        return mediaListService.getMediaListById(id);
+    public MediaListResponse getMediaListById(@PathVariable Long id) {
+        MediaList mediaList = mediaListService.getMediaListById(id);
+        return toMediaListResponse(mediaList);
     }
 
     @GetMapping("/user/{userId}")
-    public List<MediaList> getMediaListsByUserId(@PathVariable Long userId) {
-        return mediaListService.getMediaListsByUserId(userId);
+    public List<MediaListResponse> getMediaListsByUserId(@PathVariable Long userId) {
+        return mediaListService.getMediaListsByUserId(userId)
+            .stream().map(this::toMediaListResponse)
+            .toList();
     }
 
     @GetMapping("/name/{name}")
-    public List<MediaList> getMediaListsByName(@PathVariable String name) {
-        return mediaListService.getMediaListsByName(name);
+    public List<MediaListResponse> getMediaListsByName(@PathVariable String name) {
+        return mediaListService.getMediaListsByName(name)
+            .stream().map(this::toMediaListResponse)
+            .toList();
     }
 
     @GetMapping("/user/{userId}/name/{name}")
-    public List<MediaList> getMediaListsByUserIdAndName(@PathVariable Long userId, @PathVariable String name) {
-        return mediaListService.getMediaListsByUserIdAndName(userId, name);
+    public List<MediaListResponse> getMediaListsByUserIdAndName(@PathVariable Long userId, @PathVariable String name) {
+        return mediaListService.getMediaListsByUserIdAndName(userId, name)
+            .stream().map(this::toMediaListResponse)
+            .toList();
     }
 
     @PutMapping("/{id}")
-    public MediaList updateMediaList(@PathVariable Long id, @RequestBody CreateMediaListRequest request) {
-        return mediaListService.updateMediaList(id, request.getName(), request.getDescription());
+    public MediaListResponse updateMediaList(@PathVariable Long id, @Valid @RequestBody CreateMediaListRequest request, Authentication authentication) {
+        String email = authentication.getName();
+
+        MediaList mediaList = mediaListService.updateMediaList(id, email, request.getName(), request.getDescription());
+        return toMediaListResponse(mediaList);
     }
 
     @PutMapping("/{listId}/media/{mediaId}")
-    public MediaList addMediaToList(@PathVariable Long listId, @PathVariable Long mediaId) {
-        return mediaListService.addMediaToList(listId, mediaId);
+    public MediaListResponse addMediaToList(@PathVariable Long listId, @PathVariable Long mediaId, Authentication authentication) {
+        String email = authentication.getName();
+        MediaList mediaList = mediaListService.addMediaToList(listId, email, mediaId);
+        return toMediaListResponse(mediaList);
     }
 
     @DeleteMapping("/{listId}/media/{mediaId}")
-    public MediaList removeMediaFromList(@PathVariable Long listId, @PathVariable Long mediaId) {
-        return mediaListService.removeMediaFromList(listId, mediaId);
+    public MediaListResponse removeMediaFromList(@PathVariable Long listId, @PathVariable Long mediaId, Authentication authentication) {
+        String email = authentication.getName();
+
+        MediaList mediaList = mediaListService.removeMediaFromList(listId, email, mediaId);
+
+        return toMediaListResponse(mediaList);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteMediaList(@PathVariable Long id) {
-        mediaListService.deleteMediaList(id);
+    public void deleteMediaList(@PathVariable Long id, Authentication authentication) {
+        String email = authentication.getName();
+
+        mediaListService.deleteMediaList(id, email);
+    }
+
+    //helper method to convert MediaList entity into a safe API response
+    private MediaListResponse toMediaListResponse(MediaList mediaList) {
+        User user = mediaList.getUser();
+
+        UserResponse userResponse = new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getBio(), user.getProfilePictureUrl());
+
+        return new MediaListResponse(mediaList.getId(), mediaList.getName(), mediaList.getDescription(), userResponse);
     }
 }

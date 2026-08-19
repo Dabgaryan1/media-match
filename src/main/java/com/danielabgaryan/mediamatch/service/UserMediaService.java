@@ -7,7 +7,7 @@ import com.danielabgaryan.mediamatch.repository.MediaRepository;
 import com.danielabgaryan.mediamatch.model.UserMedia;
 import com.danielabgaryan.mediamatch.model.User;
 import com.danielabgaryan.mediamatch.exception.DuplicateResourceException;
-import com.danielabgaryan.mediamatch.exception.InvalidRequestException;
+import com.danielabgaryan.mediamatch.exception.ForbiddenException;
 import com.danielabgaryan.mediamatch.exception.ResourceNotFoundException;
 import com.danielabgaryan.mediamatch.model.Media;
 import com.danielabgaryan.mediamatch.model.Status;
@@ -25,12 +25,11 @@ public class UserMediaService {
         this.mediaRepository = mediaRepository;
     }
 
-    public UserMedia addMediaToUser(Long userId, Long mediaId, Status status) {
-        User user = getUserOrThrow(userId);
-
+    public UserMedia addMediaToUser(String email, Long mediaId, Status status) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Media media = mediaRepository.findById(mediaId).orElseThrow(() -> new ResourceNotFoundException("Media not found"));
 
-        if (userMediaRepository.existsByUser_IdAndMedia_Id(userId, mediaId)) {
+        if (userMediaRepository.existsByUser_IdAndMedia_Id(user.getId(), mediaId)) {
             throw new DuplicateResourceException("Media is already in user's library");
         }
 
@@ -52,32 +51,34 @@ public class UserMediaService {
         return userMediaRepository.findById(userMediaId).orElseThrow(() -> new ResourceNotFoundException("User media not found"));
     }
 
-    public UserMedia updateStatus(Long userMediaId, Status status) {
+    public UserMedia updateStatus(Long userMediaId, String email, Status status) {
         UserMedia userMedia = getUserMediaById(userMediaId);
+        verifyOwnership(userMedia, email);
         userMedia.setStatus(status);
 
         return userMediaRepository.save(userMedia);
     }
 
-    public UserMedia updateRating(Long userMediaId, Integer rating) {
-        if (rating != null && (rating < 1 || rating > 5)) {
-            throw new InvalidRequestException("Rating must be between 1 and 5");
-        }
+    public UserMedia updateRating(Long userMediaId, String email, Integer rating) {
         UserMedia userMedia = getUserMediaById(userMediaId);
+        verifyOwnership(userMedia, email);
+
         userMedia.setRating(rating);
 
         return userMediaRepository.save(userMedia);
     }
 
-    public UserMedia updateFavorite(Long userMediaId, boolean favorite) {
+    public UserMedia updateFavorite(Long userMediaId, String email, boolean favorite) {
         UserMedia userMedia = getUserMediaById(userMediaId);
+        verifyOwnership(userMedia, email);
         userMedia.setFavorite(favorite);
 
         return userMediaRepository.save(userMedia);
     }
 
-    public void removeMediaFromUser(Long userMediaId) {
+    public void removeMediaFromUser(Long userMediaId, String email) {
         UserMedia userMedia = getUserMediaById(userMediaId);
+        verifyOwnership(userMedia, email);
         userMediaRepository.delete(userMedia);
     }
     
@@ -89,5 +90,11 @@ public class UserMediaService {
     //helper method to check if user exists
     private User getUserOrThrow(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
+    private void verifyOwnership(UserMedia userMedia, String email) {
+        if (!userMedia.getUser().getEmail().equals(email)) {
+            throw new ForbiddenException("You do not own this user media");
+        }
     }
 }

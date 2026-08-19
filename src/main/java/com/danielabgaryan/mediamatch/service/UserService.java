@@ -4,6 +4,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.danielabgaryan.mediamatch.exception.DuplicateResourceException;
+import com.danielabgaryan.mediamatch.exception.ForbiddenException;
+import com.danielabgaryan.mediamatch.exception.InvalidRequestException;
 import com.danielabgaryan.mediamatch.exception.ResourceNotFoundException;
 import com.danielabgaryan.mediamatch.model.User;
 import com.danielabgaryan.mediamatch.repository.UserRepository;
@@ -48,8 +50,9 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(Long userId, String userName, String email, String password) {
+    public User updateUser(Long userId, String authenticatedEmail, String userName, String email) {
         User user = getUserById(userId);
+        verifyOwnership(user, authenticatedEmail);
 
         userRepository.findByUsername(userName).filter(existingUser -> !existingUser.getId().equals(userId)).ifPresent(existingUser -> {
             throw new DuplicateResourceException("Username already taken");
@@ -62,14 +65,31 @@ public class UserService {
         user.setUsername(userName);
         user.setEmail(email);
 
-        String hashedPassword = passwordEncoder.encode(password);
-        user.setPasswordHash(hashedPassword);
+        return userRepository.save(user);
+    }
 
+    public User updatePassword(Long userId, String authenticatedEmail, String currentPassword, String newPassword) {
+        User user = getUserById(userId);
+        verifyOwnership(user, authenticatedEmail);
+
+        if(!passwordEncoder.matches(currentPassword, user.getPasswordHash())) {
+            throw new InvalidRequestException("Invalid current password");
+        }
+
+        String hashedPassword = passwordEncoder.encode(newPassword);
+        user.setPasswordHash(hashedPassword);
         return userRepository.save(user);
     }
     
-    public void deleteUser(Long userId) {
+    public void deleteUser(Long userId, String authenticatedEmail) {
         User user = getUserById(userId);
+        verifyOwnership(user, authenticatedEmail);
         userRepository.delete(user);
+    }
+
+    private void verifyOwnership(User user, String authenticatedEmail) {
+        if (!user.getEmail().equals(authenticatedEmail)) {
+            throw new ForbiddenException("You cannot modify this account");
+        }
     }
 }

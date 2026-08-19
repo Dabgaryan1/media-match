@@ -8,6 +8,9 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.beans.factory.annotation.Value;
+
+import java.nio.charset.StandardCharsets;
+
 import javax.crypto.SecretKey;
 
 @Configuration
@@ -16,7 +19,7 @@ public class JwtConfig {
     private String secret;
 
     private SecretKey getSecretKey() {
-        return new SecretKeySpec(secret.getBytes(), "HmacSHA256");
+        return new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
     }
 
     //creates the encoder used to sign JWT tokens with our secret key

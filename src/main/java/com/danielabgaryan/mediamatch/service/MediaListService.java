@@ -7,6 +7,7 @@ import com.danielabgaryan.mediamatch.model.MediaList;
 import com.danielabgaryan.mediamatch.model.User;
 import com.danielabgaryan.mediamatch.repository.MediaRepository;
 import com.danielabgaryan.mediamatch.exception.DuplicateResourceException;
+import com.danielabgaryan.mediamatch.exception.ForbiddenException;
 import com.danielabgaryan.mediamatch.exception.ResourceNotFoundException;
 import com.danielabgaryan.mediamatch.model.Media;
 import java.util.List;
@@ -24,13 +25,14 @@ public class MediaListService {
     }
 
 
-    public MediaList createMediaList(Long userId, String name, String description) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    public MediaList createMediaList(String email, String name, String description) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        MediaList mediaList = new MediaList();
-        mediaList.setName(name);
-        mediaList.setDescription(description);
-        mediaList.setUser(user);
+        MediaList mediaList = new MediaList(
+            user,
+            name,
+            description
+        );
         
         return mediaListRepository.save(mediaList);
     }
@@ -59,9 +61,11 @@ public class MediaListService {
         return mediaListRepository.findById(mediaListId).orElseThrow(() -> new ResourceNotFoundException("Media list not found"));
     }
 
-    public MediaList addMediaToList(Long mediaListId, Long mediaId) {
+    public MediaList addMediaToList(Long mediaListId, String email, Long mediaId) {
         MediaList mediaList = getMediaListById(mediaListId);
 
+        verifyOwnership(mediaList, email);
+        
         Media media = mediaRepository.findById(mediaId).orElseThrow(() -> new ResourceNotFoundException("Media not found"));
 
         boolean added = mediaList.getMedia().add(media);
@@ -72,9 +76,11 @@ public class MediaListService {
         return mediaListRepository.save(mediaList);
     }
 
-    public MediaList removeMediaFromList(Long mediaListId, Long mediaId) {
+    public MediaList removeMediaFromList(Long mediaListId, String email, Long mediaId) {
         MediaList mediaList = getMediaListById(mediaListId);
 
+        verifyOwnership(mediaList, email);
+        
         Media media = mediaRepository.findById(mediaId).orElseThrow(() -> new ResourceNotFoundException("Media not found"));
 
         boolean removed = mediaList.getMedia().remove(media);
@@ -85,18 +91,26 @@ public class MediaListService {
         return mediaListRepository.save(mediaList);
     }
 
-    public void deleteMediaList(Long mediaListId) {
+    public void deleteMediaList(Long mediaListId, String email) {
         MediaList mediaList = getMediaListById(mediaListId);
+        verifyOwnership(mediaList, email);
 
         mediaListRepository.delete(mediaList);
     }
 
-    public MediaList updateMediaList(Long mediaListId, String name, String description) {
+    public MediaList updateMediaList(Long mediaListId, String email, String name, String description) {
         MediaList mediaList = getMediaListById(mediaListId);
+        verifyOwnership(mediaList, email);
 
         mediaList.setName(name);
         mediaList.setDescription(description);
 
         return mediaListRepository.save(mediaList);
+    }
+
+    private void verifyOwnership(MediaList mediaList, String email) {
+        if (!mediaList.getUser().getEmail().equals(email)) {
+            throw new ForbiddenException("You do not own this media list");
+        }
     }
 }

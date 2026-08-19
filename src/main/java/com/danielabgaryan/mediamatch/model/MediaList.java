@@ -24,7 +24,7 @@ public class MediaList {
     @Column(nullable = false)
     private String name;
 
-    @Column(length = 200)
+    @Column(nullable = false, length = 300)
     private String description;
 
     @ManyToOne(optional = false)
@@ -38,6 +38,16 @@ public class MediaList {
     inverseJoinColumns = @JoinColumn(name = "media_id")
     )
     private Set<Media> media = new HashSet<>();
+    
+    public MediaList(User user, String name, String description) {
+        this.user = user;
+        this.name = name;
+        this.description = description;
+    }
+
+    public MediaList() {
+        
+    }
     
     public Long getId() {
         return id;
