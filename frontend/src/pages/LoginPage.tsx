@@ -1,14 +1,25 @@
 import { useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 
+type LoginResponse = {
+  token: string;
+  userId: number;
+  username: string;
+};
+
 function LoginPage() {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
 
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setError(null);
+    setIsLoading(true);
 
     try {
       const response = await fetch(`${API_URL}/auth/login`, {
@@ -20,14 +31,18 @@ function LoginPage() {
       });
 
       if (!response.ok) {
-        console.log("Invalid email or password");
+        setError("Invalid email or password");
         return;
       }
 
-      const loginResponse = await response.json();
-      console.log(loginResponse);
+      const loginResponse: LoginResponse = await response.json();
+      localStorage.setItem("token", loginResponse.token);
+      localStorage.setItem("userId", String(loginResponse.userId));
+      localStorage.setItem("username", loginResponse.username);
     } catch {
-      console.log("The server could not be reached");
+      setError("The server could not be reached");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -52,6 +67,7 @@ function LoginPage() {
           type="email"
           value={credentials.email}
           onChange={handleChange}
+          required
         />
 
         <label htmlFor="password">Password</label>
@@ -61,9 +77,14 @@ function LoginPage() {
           type="password"
           value={credentials.password}
           onChange={handleChange}
+          required
         />
+        {error && <p>{error}</p>}
 
-        <button type="submit">Login</button>
+        <button 
+          type="submit" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Login"}
+        </button>
       </form>
     </main>
   );
