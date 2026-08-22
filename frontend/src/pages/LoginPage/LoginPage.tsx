@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./LoginPage.css"
 const API_URL = import.meta.env.VITE_API_URL;
 
 type LoginResponse = {
@@ -15,6 +16,7 @@ function LoginPage() {
 
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -56,7 +58,7 @@ function LoginPage() {
   };
 
   return (
-    <main>
+    <main className="login-page">
       <h1>Welcome To MediaMatch</h1>
 
       <form onSubmit={handleSubmit}>
@@ -74,18 +76,30 @@ function LoginPage() {
         <input
           id="password"
           name="password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           value={credentials.password}
           onChange={handleChange}
           required
         />
-        {error && <p>{error}</p>}
+        {error && <p role="alert">{error}</p>}
+
+        <button
+          type="button" 
+          onClick={() => setShowPassword(!showPassword)}
+          aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? "Hide" : "Show"}
+        </button>
+
+        <a href="/forgot-password">Forgot Password?</a>
 
         <button 
           type="submit" disabled={isLoading}>
           {isLoading ? "Logging in..." : "Login"}
         </button>
       </form>
+
+      <a href="/register">Create New Account</a>
     </main>
   );
 }
