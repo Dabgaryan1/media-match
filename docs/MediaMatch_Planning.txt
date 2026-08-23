@@ -105,8 +105,7 @@ Step 7. Drill into components:
 
 Step 8. Pick tech stack:
 	Frontend:
-		*HTML/CSS/JAVASCRIPT
-		*(Later React + Vite)
+		*React + Vite
 
 	Backend:
 		*Java
@@ -148,4 +147,4 @@ Step 9. Overall Development Plan:
 
 Do this shit and you might get employed by 2045
 
-Total time spent on MediaMatch: 29 Hours, 5 Minutes
+Total time spent on MediaMatch: 31 Hours, 20 Minutes
