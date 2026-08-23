@@ -643,15 +643,3 @@ Preserve working behavior unless a change is necessary for:
 - the requested feature
 
 Avoid changing unrelated code while working on a focused task.
-
-## Next Task
-
-The developer's next learning task is to write `CommentControllerTest`.
-
-Start with the successful `GET /comments/{id}` case:
-
-```text
-getCommentById_whenCommentExists_returnsCommentResponse
-```
-
-The test should mock `CommentService`, construct a comment author and a media list with its owner, perform `GET /comments/1`, and verify the mapped JSON response. Guide the developer incrementally and let them write this controller test class. After it is complete, Codex may implement the remaining controller and other necessary test coverage.
