@@ -59,59 +59,61 @@ function LoginPage() {
 
   return (
     <main className="login-page">
-      <h1 id="title">Welcome To MediaMatch</h1>
+      <section className="login-card">
+        <h1 id="title">Welcome To MediaMatch</h1>
 
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            className="form-input"
-            id="email"
-            name="email"
-            type="email"
-            value={credentials.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-
-          <div className="password-input-row">
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
             <input
               className="form-input"
-              id="password"
-              name="password"
-              type={showPassword ? "text" : "password"}
-              value={credentials.password}
+              id="email"
+              name="email"
+              type="email"
+              value={credentials.email}
               onChange={handleChange}
               required
             />
-          
-            <button
-              type="button" 
-              onClick={() => setShowPassword(!showPassword)}
-              aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                {showPassword ? "Hide" : "Show"}
-            </button>
           </div>
 
-          {error && <p role="alert">{error}</p>}
-        </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
 
-        <a className="page-text" href="/forgot-password">Forgot Password?</a>
-        
-      <a className="page-text" href="/register">Create New Account</a>
+            <div className="password-input-row">
+              <input
+                className="form-input"
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                value={credentials.password}
+                onChange={handleChange}
+                required
+              />
+            
+              <button
+                type="button" 
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
 
-        <div id="submit-button">
-          <button 
-            type="submit" disabled={isLoading}>
-            {isLoading ? "Logging in..." : "Login"}
-          </button>
-        </div>
-      </form>
+            {error && <p role="alert">{error}</p>}
+          </div>
+
+          <a className="page-text" href="/forgot-password">Forgot Password?</a>
+          
+        <a className="page-text" href="/register">Create New Account</a>
+
+          <div id="submit-button">
+            <button 
+              type="submit" disabled={isLoading}>
+              {isLoading ? "Logging in..." : "Login"}
+            </button>
+          </div>
+        </form>
+      </section>
     </main>
   );
 }

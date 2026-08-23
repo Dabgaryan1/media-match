@@ -1,81 +1,136 @@
-.login-page {
-    min-height: 100vh;
-    background-color: #DFD9D8;
+.login-card {
+    width: 100%;
+    max-width: 28rem;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 0.75rem;
+    box-sizing:border-box;
+    color: #2b2d2e;
+    box-shadow: 0 0.5rem 1.5rem rgba(43, 45, 46, 0.15);
 }
 
-#title {
-    font-size: 2.5rem;
-    font-family: Trebuchet MS;
-    font-weight: bold;
-    color: #64242F;
+.login-page {
+    min-height: 100vh;
+    padding: 1.5rem;
+    background-color: #dfd9d8;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-sizing: border-box;
+}
+
+.login-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
 
 .form-group {
-    font-size: 1.25rem;
     display: flex;
     flex-direction: column;
-    width: 50%;
-    margin: 0 auto;
+    gap: 0.4rem;
+    width: 100%;
+    margin: 0%;
 }
 
-.form-group label {
-    font-weight: bold;
-    font-family: Trebuchet MS;
-    color: #3C4142;
+#title {
+    margin: 0 0 1.75rem;
+    text-align: center;
+    font-family: inherit;
+    color:#2b2d2e;
+}
+
+.page-text {
+  color: #be0624;
+  text-align: center;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.page-text:hover {
+  color: #8f071d;
+  text-decoration: underline;
+}
+
+.page-text:focus-visible {
+  outline: 2px solid #be0624;
+  outline-offset: 3px;
+  border-radius: 0.2rem;
 }
 
 .form-input {
-  width: 100%;
-  box-sizing: border-box;
-  height:1.55rem;
-  ;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #3c4142;
+    background-color: #ffffff;
+    border: 1px solid #9b9291;
+    border-radius: 0.4rem;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    border-color: #2b2d2e;
+    outline: 2px solid rgba(100, 36, 47, 0.2);
 }
 
 .password-input-row {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.password-input-row .form-input {
+  padding-right: 4rem;
 }
 
 .password-input-row button {
   position: absolute;
-  left: calc(100% + 0.5rem);
   top: 50%;
-  transform: translateY(-38.5%);
-  font-family: Trebuchet MS;
-  color: #3C4142;
+  right: 0.75rem;
+  transform: translateY(-50%);
+
+  padding: 0;
+  color: #be0624;
+  background: none;
+  border: none;
+  font-family: inherit;
   font-weight: bold;
+  cursor: pointer;
 }
 
-.password-actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.page-text {
-    color: #64242F;
-    font-weight: bold;
-    font-size: 1.25rem;
-    font-family: Trebuchet MS;
-    text-align: center;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    margin-top: 0.4167rem;
+.password-input-row button:focus-visible {
+  outline: 2px solid #be0624;
+  outline-offset: 3px;
 }
 
 #submit-button {
     display: flex;
     justify-content: center;
-    margin-top: 3rem;
 }
 
 #submit-button button {
-    width: 12rem;
-    padding: 0.75rem 1rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color:  #3C4142;
-    background-color: #FC8F8F;
+  min-width: 10rem;
+  padding: 0.75rem 1.5rem;
+
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: bold;
+
+  color: #be0624;
+  background-color: #adebb3;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
 }
 
+#submit-button button:hover:not(:disabled) {
+  background-color: #95d99c;
+}
+
+#submit-button button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
