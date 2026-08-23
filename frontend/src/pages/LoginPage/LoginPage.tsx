@@ -59,47 +59,59 @@ function LoginPage() {
 
   return (
     <main className="login-page">
-      <h1>Welcome To MediaMatch</h1>
+      <h1 id="title">Welcome To MediaMatch</h1>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          value={credentials.email}
-          onChange={handleChange}
-          required
-        />
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            className="form-input"
+            id="email"
+            name="email"
+            type="email"
+            value={credentials.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          name="password"
-          type={showPassword ? "text" : "password"}
-          value={credentials.password}
-          onChange={handleChange}
-          required
-        />
-        {error && <p role="alert">{error}</p>}
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
 
-        <button
-          type="button" 
-          onClick={() => setShowPassword(!showPassword)}
-          aria-label={showPassword ? "Hide password" : "Show password"}
-          >
-            {showPassword ? "Hide" : "Show"}
-        </button>
+          <div className="password-input-row">
+            <input
+              className="form-input"
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              value={credentials.password}
+              onChange={handleChange}
+              required
+            />
+          
+            <button
+              type="button" 
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
 
-        <a href="/forgot-password">Forgot Password?</a>
+          {error && <p role="alert">{error}</p>}
+        </div>
 
-        <button 
-          type="submit" disabled={isLoading}>
-          {isLoading ? "Logging in..." : "Login"}
-        </button>
+        <a className="page-text" href="/forgot-password">Forgot Password?</a>
+        
+      <a className="page-text" href="/register">Create New Account</a>
+
+        <div id="submit-button">
+          <button 
+            type="submit" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
+          </button>
+        </div>
       </form>
-
-      <a href="/register">Create New Account</a>
     </main>
   );
 }
