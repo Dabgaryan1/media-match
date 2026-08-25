@@ -1,5 +1,7 @@
 import {useState} from "react";
 import "./CreateAccountPage.css";
+import {useNavigate} from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function CreateAccountPage() {
     const [credentials, setCredentials] = useState({
@@ -9,16 +11,59 @@ function CreateAccountPage() {
         confirmPassword: "",
     });
 
+    const navigate = useNavigate();
+
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setError(null);
         setIsLoading(true);
 
-        //continue here with fetch requrest to users
+        try {
+            if (credentials.password !== credentials.confirmPassword) {
+                setError("Passwords do not match");
+                return;
+            }
+            const response = await fetch(`${API_URL}/users`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    userName: credentials.userName,
+                    email: credentials.email,
+                    password: credentials.password,
+                }),
+            });
+
+            if (response.status === 409) {
+                setError("Username or email already in use");
+                return;
+            }
+
+            if (response.status === 400) {
+                setError("Invalid fields");
+                return;
+            }
+
+            if (!response.ok) {
+                setError("Account could not be created");
+                return;
+            }
+            navigate("/login", {
+                state: {
+                    message: "Account created successfully. Please log in.",
+                },
+            });
+            
+        } catch {
+            setError("The server could not be reached");
+        }   finally {
+            setIsLoading(false);
+        }
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,12 +82,12 @@ function CreateAccountPage() {
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="username">UserName</label>
+                        <label htmlFor="userName">Username</label>
                         <input 
                             className="form-input"
-                            id="username"
-                            name="username"
-                            type="username"
+                            id="userName"
+                            name="userName"
+                            type="text"
                             value={credentials.userName}
                             onChange={handleChange}
                             required
@@ -76,6 +121,14 @@ function CreateAccountPage() {
                                 onChange={handleChange}
                                 required
                             />
+
+                            <button
+                                type="button" 
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Hide password" : "Show password"}
+                                >
+                                {showPassword ? "Hide" : "Show"}
+                            </button>
                         </div>
                     </div>
 
@@ -87,21 +140,20 @@ function CreateAccountPage() {
                                 className="form-input"
                                 id="confirmPassword"
                                 name="confirmPassword"
-                                type={showPassword ? "text" : "confirmPassword"}
+                                type={showPassword ? "text" : "password"}
+                                value={credentials.confirmPassword}
                                 onChange={handleChange}
                                 required
                             />
-
-                            <button
-                                type="button" 
-                                onClick={() => setShowPassword(!showPassword)}
-                                aria-label={showPassword ? "Hide password" : "Show password"}
-                                >
-                                {showPassword ? "Hide" : "Show"}
-                            </button>
                         </div>
 
                         {error && <p role="alert">{error}</p>}
+                    </div>
+
+                    <div id="submit-button">
+                        <button type="submit" disabled={isLoading}>
+                        {isLoading ? "Creating Account..." : "Create Account"}
+                        </button>
                     </div>
                 </form>
             </section>

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import "./LoginPage.css"
+import "./LoginPage.css";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 type LoginResponse = {
@@ -46,10 +47,10 @@ function LoginPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+    const {name, value} = event.target;
 
     setCredentials({
       ...credentials,
@@ -60,7 +61,7 @@ function LoginPage() {
   return (
     <main className="login-page">
       <section className="login-card">
-        <h1 id="title">Welcome To MediaMatch</h1>
+        <h1 id="title">MediaMatch</h1>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">

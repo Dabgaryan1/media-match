@@ -1,9 +1,15 @@
 import './App.css'
 import LoginPage from './pages/LoginPage/LoginPage'
-import CreateAccountPage from './pages/CreateAccountPage'
+import CreateAccountPage from './pages/CreateAccountPage/CreateAccountPage'
+import { Routes, Route } from "react-router-dom";
 
 function App() {
-    return <CreateAccountPage />
+  return (
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<CreateAccountPage />} />
+    </Routes>
+  );
 }
 
 export default App
