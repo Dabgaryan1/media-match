@@ -1,0 +1,178 @@
+.create-account-card {
+    width: 100%;
+    max-width: 28rem;
+    padding: 2rem;
+    background-color: white;
+    border-radius:0.75rem;
+    box-sizing: border-box;
+    color: #2b2d2e;
+    box-shadow: 0 0.5rem 1.5rem rgba(43, 45, 46, 0.15);
+}
+
+.create-account-page {
+    min-height: 100vh;
+    padding: 1.5rem;
+    background-color: #dfd9d8;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.create-account-page label {
+  color: #2b2d2e;
+  font-weight: bold;
+}
+
+.create-account-page .password-visibility-button:hover {
+  color: #8f071d;
+  text-decoration: underline;
+}
+
+.create-account-page .password-visibility-button:focus-visible {
+  outline: 2px solid #be0624;
+  outline-offset: 3px;
+  border-radius: 0.2rem;
+}
+
+.create-account-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.create-account-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    width: 100%;
+    margin: 0%;
+}
+
+.create-account-page .title {
+    margin: 0 0 1.75rem;
+    font-size: 2.2rem;
+    letter-spacing: normal;
+    line-height:1.2; 
+    text-align: center;
+    font-family: inherit;
+    color:#2b2d2e;
+}
+
+.create-account-page .page-text {
+  color: #be0624;
+  text-align: center;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.create-account-page .page-text:hover {
+  color: #8f071d;
+  text-decoration: underline;
+}
+
+.create-account-page .page-text:focus-visible {
+  outline: 2px solid #be0624;
+  outline-offset: 3px;
+  border-radius: 0.2rem;
+}
+
+.create-account-page .form-input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #3c4142;
+    background-color: #ffffff;
+    border: 1px solid #9b9291;
+    border-radius: 0.4rem;
+    box-sizing: border-box;
+}
+
+.create-account-page .form-input:focus {
+    border-color: #2b2d2e;
+    outline: 2px solid rgba(100, 36, 47, 0.2);
+}
+
+.create-account-page .password-input-row {
+  position: relative;
+  width: 100%;
+}
+
+.create-account-page .password-input-row .form-input {
+  padding-right: 4rem;
+}
+
+.create-account-page .password-input-row button {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+
+  padding: 0;
+  color: #be0624;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.create-account-page .password-input-row button:focus-visible {
+  outline: 2px solid #be0624;
+  outline-offset: 3px;
+}
+
+.create-account-page .submit-button {
+    display: flex;
+    justify-content: center;
+}
+
+.create-account-page .submit-button button {
+  min-width: 10rem;
+  padding: 0.75rem 1.5rem;
+
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: bold;
+
+  color: #be0624;
+  background-color: #adebb3;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.create-account-page .submit-button button:hover:not(:disabled) {
+  background-color: #95d99c;
+}
+
+.create-account-page .submit-button button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.create-account-page [role="alert"] {
+  color: #be0624;
+  font-size: 0.9rem;
+  margin: 0.25rem 0 0;
+}
+
+@media (max-width: 480px) {
+  .create-account-page {
+    padding: 1rem;
+  }
+
+  .create-account-card {
+    padding: 1.5rem;
+  }
+
+  .create-account-page .title {
+    font-size: 1.8rem;
+  }
+
+  .create-account-page .submit-button button {
+    width: 100%;
+  }
+}

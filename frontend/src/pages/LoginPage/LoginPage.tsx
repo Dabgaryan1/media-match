@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -10,6 +11,10 @@ type LoginResponse = {
 };
 
 function LoginPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const successMessage = location.state?.message;
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -42,6 +47,7 @@ function LoginPage() {
       localStorage.setItem("token", loginResponse.token);
       localStorage.setItem("userId", String(loginResponse.userId));
       localStorage.setItem("username", loginResponse.username);
+      navigate("/");
     } catch {
       setError("The server could not be reached");
     } finally {
@@ -61,8 +67,13 @@ function LoginPage() {
   return (
     <main className="login-page">
       <section className="login-card">
-        <h1 id="title">MediaMatch</h1>
+        <h1 className="title">MediaMatch</h1>
 
+        {successMessage && (
+          <p className="success-message" role="status">
+            {successMessage}
+          </p>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email</label>

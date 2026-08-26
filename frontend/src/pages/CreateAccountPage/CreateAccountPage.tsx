@@ -14,6 +14,7 @@ function CreateAccountPage() {
     const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -78,7 +79,7 @@ function CreateAccountPage() {
     return (
         <main className="create-account-page">
             <section className="create-account-card">
-                <h1 id="title">Create New Account</h1>
+                <h1 className="title">Create New Account</h1>
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -90,6 +91,8 @@ function CreateAccountPage() {
                             type="text"
                             value={credentials.userName}
                             onChange={handleChange}
+                            minLength={3}
+                            maxLength={30}
                             required
                         />
                     </div>
@@ -119,10 +122,12 @@ function CreateAccountPage() {
                                 type={showPassword ? "text" : "password"}
                                 value={credentials.password}
                                 onChange={handleChange}
+                                minLength={8}
                                 required
                             />
 
                             <button
+                                className="password-visibility-button"
                                 type="button" 
                                 onClick={() => setShowPassword(!showPassword)}
                                 aria-label={showPassword ? "Hide password" : "Show password"}
@@ -140,17 +145,29 @@ function CreateAccountPage() {
                                 className="form-input"
                                 id="confirmPassword"
                                 name="confirmPassword"
-                                type={showPassword ? "text" : "password"}
+                                type={showConfirmPassword ? "text" : "password"}
                                 value={credentials.confirmPassword}
                                 onChange={handleChange}
+                                minLength={8}
                                 required
                             />
+
+                            <button
+                                className="password-visibility-button"
+                                type="button"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
+                                >
+                                {showConfirmPassword ? "Hide" : "Show"}
+                            </button>
                         </div>
 
                         {error && <p role="alert">{error}</p>}
                     </div>
 
-                    <div id="submit-button">
+                    <a className="page-text" href="/login">Already have an account? Log in</a>
+
+                    <div className="submit-button">
                         <button type="submit" disabled={isLoading}>
                         {isLoading ? "Creating Account..." : "Create Account"}
                         </button>

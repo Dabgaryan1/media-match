@@ -17,7 +17,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
     box-sizing: border-box;
 }
 
@@ -27,7 +26,7 @@
     gap: 1.25rem;
 }
 
-.form-group {
+.login-page .form-group {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
@@ -35,7 +34,7 @@
     margin: 0%;
 }
 
-#title {
+.login-page .title {
     margin: 0 0 1.75rem;
     font-size: 2.8rem;
     letter-spacing: normal;
@@ -45,25 +44,25 @@
     color:#2b2d2e;
 }
 
-.page-text {
+.login-page .page-text {
   color: #be0624;
   text-align: center;
   text-decoration: none;
   font-family: inherit;
 }
 
-.page-text:hover {
+.login-page .page-text:hover {
   color: #8f071d;
   text-decoration: underline;
 }
 
-.page-text:focus-visible {
+.login-page .page-text:focus-visible {
   outline: 2px solid #be0624;
   outline-offset: 3px;
   border-radius: 0.2rem;
 }
 
-.form-input {
+.login-page .form-input {
     width: 100%;
     padding: 0.75rem;
     font-size: 1rem;
@@ -75,21 +74,21 @@
     box-sizing: border-box;
 }
 
-.form-input:focus {
+.login-page .form-input:focus {
     border-color: #2b2d2e;
     outline: 2px solid rgba(100, 36, 47, 0.2);
 }
 
-.password-input-row {
+.login-page .password-input-row {
   position: relative;
   width: 100%;
 }
 
-.password-input-row .form-input {
+.login-page .password-input-row .form-input {
   padding-right: 4rem;
 }
 
-.password-input-row button {
+.login-page .password-input-row button {
   position: absolute;
   top: 50%;
   right: 0.75rem;
@@ -104,17 +103,17 @@
   cursor: pointer;
 }
 
-.password-input-row button:focus-visible {
+.login-page .password-input-row button:focus-visible {
   outline: 2px solid #be0624;
   outline-offset: 3px;
 }
 
-#submit-button {
+.login-page #submit-button {
     display: flex;
     justify-content: center;
 }
 
-#submit-button button {
+.login-page #submit-button button {
   min-width: 10rem;
   padding: 0.75rem 1.5rem;
 
@@ -129,11 +128,58 @@
   cursor: pointer;
 }
 
-#submit-button button:hover:not(:disabled) {
+.login-page #submit-button button:hover:not(:disabled) {
   background-color: #95d99c;
 }
 
-#submit-button button:disabled {
+.login-page #submit-button button:disabled {
   opacity: 0.65;
   cursor: not-allowed;
+}
+
+.login-page [role="alert"] {
+  color: #be0624;
+  font-size: 0.9rem;
+  margin: 0.25rem 0 0;
+}
+
+.login-page label {
+  color: #2b2d2e;
+  font-weight: bold;
+}
+
+.login-page .password-input-row button:hover {
+  color: #8f071d;
+  text-decoration: underline;
+}
+
+.login-page .password-input-row button:focus-visible {
+  outline: 2px solid #be0624;
+  outline-offset: 3px;
+  border-radius: 0.2rem;
+}
+
+.login-page .success-message {
+  margin: 0 0 1.25rem;
+  color: #27632e;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 480px) {
+  .login-page {
+    padding: 1rem;
+  }
+
+  .login-card {
+    padding: 1.5rem;
+  }
+
+  .login-page .title {
+    font-size: 2.2rem;
+  }
+
+  .login-page #submit-button button {
+    width: 100%;
+  }
 }
