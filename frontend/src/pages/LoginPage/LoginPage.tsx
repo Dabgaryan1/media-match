@@ -67,7 +67,7 @@ function LoginPage() {
   return (
     <main className="login-page">
       <section className="login-card">
-        <h1 className="title">MediaMatch</h1>
+        <h1 className="title">Welcome to MediaMatch</h1>
 
         {successMessage && (
           <p className="success-message" role="status">
