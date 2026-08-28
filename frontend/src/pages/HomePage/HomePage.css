@@ -3,3 +3,82 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.header nav {
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#page-title {
+    color: var(--text-h);
+    font-size: 1.5rem;
+    font-weight:700;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+.header ul {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.header a {
+    color: #be0624;
+    text-decoration: none;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+.header a:hover {
+    color: #8f071d;
+}
+
+.hero {
+  padding: 6rem 2rem;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.hero-actions a {
+    text-decoration: none;
+    color:#be0624;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+.hero-actions a:hover {
+    color: #8f071d;
+}
+
+.feature-card {
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background-color: var(--bg);
+}
+
+.feature-lists {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 700px) {
+  .feature-lists {
+    grid-template-columns: 1fr;
+  }
+}
