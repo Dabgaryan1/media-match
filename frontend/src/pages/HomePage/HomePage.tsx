@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 import "./HomePage.css";
 
 function HomePage() {
-    
-
     return (
         <>
             <header className="header">
