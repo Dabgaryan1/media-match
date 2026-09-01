@@ -47,7 +47,7 @@ function LoginPage() {
       localStorage.setItem("token", loginResponse.token);
       localStorage.setItem("userId", String(loginResponse.userId));
       localStorage.setItem("username", loginResponse.username);
-      navigate("/");
+      navigate("/dashboard");
     } catch {
       setError("The server could not be reached");
     } finally {
@@ -130,4 +130,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default LoginPage
