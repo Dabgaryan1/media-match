@@ -46,7 +46,7 @@ public class MediaListService {
     }
 
     public List<MediaList> getMediaListsByName(String name) {
-        return mediaListRepository.findByNameIgnoreCase(name);
+        return mediaListRepository.findByNameContainingIgnoreCase(name);
     }
 
     public List<MediaList> getMediaListsByUserIdAndName(Long userId, String name) {
@@ -54,7 +54,7 @@ public class MediaListService {
             throw new ResourceNotFoundException("User not found");
         }
 
-        return mediaListRepository.findByUser_IdAndNameIgnoreCase(userId, name);
+        return mediaListRepository.findByUser_IdAndNameContainingIgnoreCase(userId, name);
     }
 
     public MediaList getMediaListById(Long mediaListId) {

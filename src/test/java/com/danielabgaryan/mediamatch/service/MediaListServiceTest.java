@@ -137,27 +137,27 @@ public class MediaListServiceTest {
     @Test
     void getMediaListsByName_returnsMatchingMediaLists() {
         List<MediaList> mediaLists = List.of(new MediaList());
-        when(mediaListRepository.findByNameIgnoreCase("Favorites"))
+        when(mediaListRepository.findByNameContainingIgnoreCase("Favorites"))
             .thenReturn(mediaLists);
 
         List<MediaList> result = mediaListService.getMediaListsByName("Favorites");
 
         assertEquals(mediaLists, result);
-        verify(mediaListRepository).findByNameIgnoreCase("Favorites");
+        verify(mediaListRepository).findByNameContainingIgnoreCase("Favorites");
     }
 
     @Test
     void getMediaListsByUserIdAndName_whenUserExists_returnsMatchingMediaLists() {
         List<MediaList> mediaLists = List.of(new MediaList());
         when(userRepository.existsById(1L)).thenReturn(true);
-        when(mediaListRepository.findByUser_IdAndNameIgnoreCase(1L, "Favorites"))
+        when(mediaListRepository.findByUser_IdAndNameContainingIgnoreCase(1L, "Favorites"))
             .thenReturn(mediaLists);
 
         List<MediaList> result = mediaListService.getMediaListsByUserIdAndName(1L, "Favorites");
 
         assertEquals(mediaLists, result);
         verify(userRepository).existsById(1L);
-        verify(mediaListRepository).findByUser_IdAndNameIgnoreCase(1L, "Favorites");
+        verify(mediaListRepository).findByUser_IdAndNameContainingIgnoreCase(1L, "Favorites");
     }
 
     @Test
@@ -170,7 +170,7 @@ public class MediaListServiceTest {
 
         verify(userRepository).existsById(1L);
         verify(mediaListRepository, never())
-            .findByUser_IdAndNameIgnoreCase(1L, "Favorites");
+            .findByUser_IdAndNameContainingIgnoreCase(1L, "Favorites");
     }
 
     @Test

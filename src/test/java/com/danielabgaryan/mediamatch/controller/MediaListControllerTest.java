@@ -128,17 +128,25 @@ public class MediaListControllerTest {
     }
 
     @Test
-    void getMediaListsByName_returnsMediaListResponses() throws Exception {
+    void searchMediaLists_returnsMediaListResponses() throws Exception {
         List<MediaList> mediaLists = List.of(mediaList(10L, "Favorites", "My favorites"));
         when(mediaListService.getMediaListsByName("Favorites")).thenReturn(mediaLists);
 
-        mockMvc.perform(get("/media-lists/name/Favorites"))
+        mockMvc.perform(get("/media-lists/search").param("query", "Favorites"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.length()").value(1))
             .andExpect(jsonPath("$[0].id").value(10))
             .andExpect(jsonPath("$[0].name").value("Favorites"));
 
         verify(mediaListService).getMediaListsByName("Favorites");
+    }
+
+    @Test
+    void searchMediaLists_whenQueryIsMissing_returnsBadRequest() throws Exception {
+        mockMvc.perform(get("/media-lists/search"))
+            .andExpect(status().isBadRequest());
+
+        verify(mediaListService, never()).getMediaListsByName(anyString());
     }
 
     @Test
