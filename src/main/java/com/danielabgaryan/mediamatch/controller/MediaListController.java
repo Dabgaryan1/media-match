@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.danielabgaryan.mediamatch.service.MediaListService;
 import org.springframework.security.core.Authentication;
@@ -54,9 +55,9 @@ public class MediaListController {
             .toList();
     }
 
-    @GetMapping("/name/{name}")
-    public List<MediaListResponse> getMediaListsByName(@PathVariable String name) {
-        return mediaListService.getMediaListsByName(name)
+    @GetMapping("/search")
+    public List<MediaListResponse> searchMediaLists(@RequestParam String query) {
+        return mediaListService.getMediaListsByName(query)
             .stream().map(this::toMediaListResponse)
             .toList();
     }
