@@ -1,8 +1,13 @@
 package com.danielabgaryan.mediamatch.service;
 
 import org.springframework.stereotype.Service;
+
+import com.danielabgaryan.mediamatch.repository.CommentRepository;
 import com.danielabgaryan.mediamatch.repository.MediaListRepository;
 import com.danielabgaryan.mediamatch.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.danielabgaryan.mediamatch.model.MediaList;
 import com.danielabgaryan.mediamatch.model.User;
 import com.danielabgaryan.mediamatch.repository.MediaRepository;
@@ -17,11 +22,13 @@ public class MediaListService {
     private final MediaListRepository mediaListRepository;
     private final UserRepository userRepository;
     private final MediaRepository mediaRepository;
+    private final CommentRepository commentRepository;
 
-    public MediaListService(MediaListRepository mediaListRepository, UserRepository userRepository, MediaRepository mediaRepository) {
+    public MediaListService(MediaListRepository mediaListRepository, UserRepository userRepository, MediaRepository mediaRepository, CommentRepository commentRepository) {
         this.mediaListRepository = mediaListRepository;
         this.userRepository = userRepository;
         this.mediaRepository = mediaRepository;
+        this.commentRepository = commentRepository;
     }
 
 
@@ -90,11 +97,13 @@ public class MediaListService {
 
         return mediaListRepository.save(mediaList);
     }
-
+    
+    @Transactional
     public void deleteMediaList(Long mediaListId, String email) {
         MediaList mediaList = getMediaListById(mediaListId);
         verifyOwnership(mediaList, email);
 
+        commentRepository.deleteByMediaList_Id(mediaListId);
         mediaListRepository.delete(mediaList);
     }
 

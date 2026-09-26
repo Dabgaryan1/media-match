@@ -11,6 +11,7 @@ import com.danielabgaryan.mediamatch.exception.ResourceNotFoundException;
 import com.danielabgaryan.mediamatch.model.Media;
 import com.danielabgaryan.mediamatch.model.MediaList;
 import com.danielabgaryan.mediamatch.model.User;
+import com.danielabgaryan.mediamatch.repository.CommentRepository;
 import com.danielabgaryan.mediamatch.repository.MediaListRepository;
 import com.danielabgaryan.mediamatch.repository.MediaRepository;
 import com.danielabgaryan.mediamatch.repository.UserRepository;
@@ -36,6 +37,9 @@ public class MediaListServiceTest {
 
     @Mock 
     private MediaRepository mediaRepository;
+
+    @Mock
+    private CommentRepository commentRepository;
 
     @InjectMocks
     private MediaListService mediaListService;
