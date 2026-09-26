@@ -1,0 +1,483 @@
+.my-lists-page {
+  flex: 1;
+  color: #2b2d2e;
+  background: linear-gradient(145deg, #ece7e6, #dfd9d8 65%, #e8e2e1);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  text-align: left;
+  color-scheme: light;
+}
+
+.my-lists-page * {
+  box-sizing: border-box;
+}
+
+.my-lists-page [hidden] {
+  display: none;
+}
+
+.my-lists-page button,
+.my-lists-page input,
+.my-lists-page textarea {
+  font: inherit;
+}
+
+.my-lists-page button {
+  cursor: pointer;
+}
+
+.my-lists-page button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.my-lists-page :is(button, a, input, textarea):focus-visible {
+  outline: 2px solid #be0624;
+  outline-offset: 3px;
+}
+
+.my-lists-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 2.5rem;
+  border-bottom: 1px solid #d8d1d0;
+  background: #fff;
+}
+
+.my-lists-header a {
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.my-lists-brand {
+  color: #2b2d2e;
+  font-size: 1.6rem;
+  letter-spacing: -0.04em;
+}
+
+.my-lists-back {
+  padding-block: 0.5rem;
+  color: #be0624;
+  font-size: 0.9rem;
+}
+
+.my-lists-back:hover {
+  color: #97071f;
+  text-decoration: underline;
+}
+
+.my-lists-main {
+  width: min(100%, 55rem);
+  margin-inline: auto;
+  padding: 3.5rem 2rem 5rem;
+  text-align: center;
+}
+
+.my-lists-eyebrow {
+  color: #8f071d;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.my-lists-heading h1 {
+  margin: 0.65rem 0 0.85rem;
+  color: #2b2d2e;
+  font-family: inherit;
+  font-size: clamp(2.25rem, 6vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+}
+
+.my-lists-heading > p:last-child {
+  color: #5f5756;
+  line-height: 1.6;
+}
+
+.my-lists-status:not(:empty),
+.my-lists-error {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.5rem;
+  overflow-wrap: anywhere;
+}
+
+.my-lists-status {
+  color: #24542c;
+  background: #e5f5e7;
+}
+
+.my-lists-error {
+  color: #97071f;
+  background: #fff0f0;
+}
+
+.my-lists-collection {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 2rem;
+}
+
+.my-lists-card {
+  min-width: 0;
+  border: 1px solid #c9c1c0;
+  border-left: 0.3rem solid #adebb3;
+  border-radius: 0.65rem;
+  background: #fff;
+  box-shadow: 0 0.25rem 0.75rem rgb(43 45 46 / 5%);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.my-lists-card:hover,
+.my-lists-card-expanded {
+  border-color: #84b98a;
+  box-shadow: 0 0.4rem 1rem rgb(43 45 46 / 9%);
+}
+
+.my-lists-card-header {
+  position: relative;
+}
+
+.my-lists-card-header h2 {
+  margin: 0;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.my-lists-toggle {
+  display: flex;
+  width: 100%;
+  min-height: 6.25rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 7.75rem 1.2rem 1.3rem;
+  border: 0;
+  border-radius: 0.5rem;
+  color: #2b2d2e;
+  background: transparent;
+  text-align: left;
+}
+
+.my-lists-list-icon {
+  display: grid;
+  width: 2.8rem;
+  height: 2.8rem;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 0.55rem;
+  color: #355f3a;
+  background: #e9f6eb;
+}
+
+.my-lists-summary {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  gap: 0.4rem;
+}
+
+.my-lists-name,
+.my-lists-preview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.my-lists-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.my-lists-card-expanded .my-lists-name {
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.my-lists-preview {
+  color: #6a605f;
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.my-lists-chevron {
+  flex-shrink: 0;
+  color: #6a605f;
+  font-size: 0.8rem;
+  transition: transform 150ms ease;
+}
+
+.my-lists-card-expanded .my-lists-chevron {
+  transform: rotate(180deg);
+}
+
+.my-lists-delete {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem;
+  border: 0;
+  border-radius: 0.4rem;
+  color: #be0624;
+  background: transparent;
+  font-size: 0.8rem !important;
+}
+
+.my-lists-delete:hover:not(:disabled) {
+  color: #97071f;
+  background: #fff0f0;
+}
+
+.my-lists-details {
+  margin-inline: 1.3rem;
+  padding: 1.25rem 0 1.5rem;
+  border-top: 1px solid #e5dfde;
+  overflow-wrap: anywhere;
+}
+
+.my-lists-description,
+.my-lists-media-description {
+  color: #5f5756;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.my-lists-details h3 {
+  margin: 1.4rem 0 0.8rem;
+  font-size: 0.95rem;
+}
+
+.my-lists-unavailable {
+  color: #6a605f;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.my-lists-media {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.my-lists-media li {
+  padding: 1rem;
+  border: 1px solid #e5dfde;
+  border-radius: 0.5rem;
+  background: #faf8f8;
+}
+
+.my-lists-media-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.my-lists-media-heading h4 {
+  min-width: 0;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.my-lists-media-type {
+  padding: 0.1rem 0.55rem;
+  border-radius: 1rem;
+  color: #355f3a;
+  background: #e5f2e7;
+  font-size: 0.75rem;
+}
+
+.my-lists-media-year {
+  margin-top: 0.25rem;
+  color: #6a605f;
+  font-size: 0.8rem;
+}
+
+.my-lists-media-description {
+  margin-top: 0.65rem;
+  font-size: 0.9rem;
+}
+
+.my-lists-empty,
+.my-lists-notice {
+  padding: 2.5rem 1.5rem;
+  border: 1px dashed #b8aeac;
+  border-radius: 0.65rem;
+  color: #5f5756;
+  background: rgb(255 255 255 / 65%);
+  text-align: center;
+}
+
+.my-lists-empty > svg {
+  margin-bottom: 1rem;
+  color: #47784d;
+  font-size: 1.8rem;
+}
+
+.my-lists-empty h2,
+.my-lists-create-form h2 {
+  margin: 0 0 0.75rem;
+  color: #2b2d2e;
+  font-family: inherit;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.my-lists-empty p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.my-lists-notice button {
+  margin-top: 1rem;
+}
+
+.my-lists-create-area {
+  margin-top: 1.25rem;
+}
+
+.my-lists-create-button,
+.my-lists-primary,
+.my-lists-secondary {
+  display: inline-flex;
+  min-height: 2.9rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.75rem 1.2rem;
+  border: 1px solid transparent;
+  border-radius: 0.55rem;
+  color: #2b2d2e;
+  background: #adebb3;
+  transition: background-color 150ms ease;
+}
+
+.my-lists-page .my-lists-create-button,
+.my-lists-page .my-lists-primary,
+.my-lists-page .my-lists-secondary {
+  font-weight: 700;
+}
+
+.my-lists-create-button {
+  width: 100%;
+}
+
+.my-lists-create-button:hover:not(:disabled),
+.my-lists-primary:hover:not(:disabled) {
+  background: #95d99c;
+}
+
+.my-lists-secondary {
+  border-color: #c9c1c0;
+  color: #5f5756;
+  background: #fff;
+}
+
+.my-lists-secondary:hover:not(:disabled) {
+  background: #f3eeee;
+}
+
+.my-lists-create-form {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  border: 1px solid #c9c1c0;
+  border-radius: 0.65rem;
+  background: #fff;
+}
+
+.my-lists-create-form label {
+  display: block;
+  margin: 1.1rem 0 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.my-lists-create-form input,
+.my-lists-create-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #b8aeac;
+  border-radius: 0.4rem;
+  color: #2b2d2e;
+  background: #fff;
+}
+
+.my-lists-create-form textarea {
+  display: block;
+  resize: vertical;
+}
+
+.my-lists-character-count {
+  margin-top: 0.35rem;
+  color: #6a605f;
+  font-size: 0.75rem;
+  text-align: right;
+}
+
+.my-lists-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+}
+
+@media (max-width: 600px) {
+  .my-lists-header {
+    padding: 1rem;
+  }
+
+  .my-lists-brand {
+    font-size: 1.3rem;
+  }
+
+  .my-lists-back {
+    max-width: 8rem;
+    font-size: 0.8rem;
+    text-align: right;
+  }
+
+  .my-lists-main {
+    padding: 2.5rem 1rem 3rem;
+  }
+
+  .my-lists-toggle {
+    gap: 0.65rem;
+    padding: 3.2rem 1rem 1rem;
+  }
+
+  .my-lists-list-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .my-lists-name {
+    font-size: 1rem;
+  }
+
+  .my-lists-details {
+    margin-inline: 1rem;
+  }
+
+  .my-lists-create-form {
+    padding: 1.1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .my-lists-page *,
+  .my-lists-page *::before,
+  .my-lists-page *::after {
+    transition: none;
+  }
+}

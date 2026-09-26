@@ -3,6 +3,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import CreateAccountPage from './pages/CreateAccountPage/CreateAccountPage';
 import HomePage from './pages/HomePage/HomePage';
 import DashboardPage from './pages/DashboardPage/DashboardPage';
+import MyListsPage from './pages/MyListsPage/MyListsPage';
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <Route path="/register" element={<CreateAccountPage />} />
       <Route path="/" element={<HomePage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
+      <Route path="/lists" element={<MyListsPage />} />
     </Routes>
   );
 }
